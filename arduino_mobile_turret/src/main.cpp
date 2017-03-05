@@ -37,27 +37,6 @@ int testl = 0;
 int testr = 0;
 
 void loop() {
-  // while (Serial.available()) {
-  //   readSerial = true;
-  //   Serial.read();
-  //
-  //   // display.print(itoa(Serial.read(), itoaBuffer, 10));
-  //   // display.print(' ');
-  // }
-  //
-  // if (readSerial) {
-  //   count++;
-  //
-  //   if (count % 100 == 0) {
-  //     display.fillScreen(BLACK);
-  //     display.setCursor(0, 0);
-  //     display.println("");
-  //     display.print("cnt:");
-  //     display.println(count);
-  //   }
-  //   readSerial = false;
-  //   Serial.write(97);
-  // }
   if (Serial.available() >= 5) {
     Message *m = handler.readMessage();
 
@@ -69,25 +48,11 @@ void loop() {
       if (m->GetMessageType() == MotorControlAbsolute) {
         MotorControlMessageAbsolute *mcma = m;
 
-        // if (count % 10 == 0) {
-        // display.fillScreen(BLACK);
-        // display.setCursor(0, 0);
-        // display.print("type: ");
-        // display.println(mcma->GetMessageType());
-        // display.print((int)mcma->_L);
-        // display.print(' ');
-        // display.println((int)mcma->_R);
-        // display.print("count:");
-        // display.println(count);
-        // }
-
         testl = (int)mcma->_L;
         testr = (int)mcma->_R;
 
         free(mcma);
         count++;
-
-        // delay(1000);
       } else {
         display.fillScreen(BLACK);
         display.setCursor(0, 0);
