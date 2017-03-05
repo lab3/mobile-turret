@@ -1,4 +1,4 @@
-package com.lab3
+package com.lab3.arduino
 
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -7,7 +7,7 @@ import com.pi4j.io.serial._
 object SerialTest {
    val x = MotorControlMessageAbsolute()
    var okToWrite: Boolean = true
-   var unacked = new AtomicInteger()
+   private[this] var unacked = new AtomicInteger()
 
    def main(args: Array[String]): Unit = {
       val serial = SerialFactory.createInstance()

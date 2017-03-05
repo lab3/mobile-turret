@@ -17,7 +17,7 @@ wip/
 *.log
 .dbshell
 *.tok
-/.idea/
+.idea/
 *.enc
 *.cache
 .classpath

@@ -1,4 +1,4 @@
-package com.lab3
+package com.lab3.arduino
 
 import com.pi4j.io.serial.Serial
 
@@ -7,7 +7,7 @@ object MessageType {
    val MotorControlMessageAbsolute: Byte = 254.toByte
 }
 
-abstract trait Message {
+trait Message {
 
    val buffer = new Array[Byte](3)
    //Header
@@ -16,7 +16,7 @@ abstract trait Message {
 
    protected def GetMessageType: Byte
 
-   def WriteToStream(serial: Serial) = {
+   def WriteToStream(serial: Serial): Unit = {
       buffer(2) = GetMessageType
       serial.write(buffer)
       //serial.write(GetMessageType)
@@ -42,7 +42,7 @@ case class MotorControlMessageRelative(
 ) extends Message {
    def GetMessageType = MessageType.MotorControlMessageRelative
 
-   override def WriteToStream(serial: Serial) = {
+   override def WriteToStream(serial: Serial): Unit = {
       super.WriteToStream(serial)
       serial.write(throttle, steering)
       println("xxxx")
@@ -61,7 +61,7 @@ case class MotorControlMessageAbsolute(
 ) extends Message {
    def GetMessageType = MessageType.MotorControlMessageAbsolute
 
-   override def WriteToStream(serial: Serial) = {
+   override def WriteToStream(serial: Serial): Unit = {
       super.WriteToStream(serial)
       serial.write(left)
       serial.write(right)
