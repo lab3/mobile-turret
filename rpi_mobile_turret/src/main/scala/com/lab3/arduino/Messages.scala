@@ -13,14 +13,13 @@ trait Message {
    //Header
    buffer(0) = 0xC
    buffer(1) = 0xA
+   //buffer(2) is for the message type
 
    protected def GetMessageType: Byte
 
    def WriteToStream(serial: Serial): Unit = {
       buffer(2) = GetMessageType
       serial.write(buffer)
-      //serial.write(GetMessageType)
-      println("write header and type")
    }
 
 }
@@ -65,7 +64,5 @@ case class MotorControlMessageAbsolute(
       super.WriteToStream(serial)
       serial.write(left)
       serial.write(right)
-
-      println("write finished")
    }
 }

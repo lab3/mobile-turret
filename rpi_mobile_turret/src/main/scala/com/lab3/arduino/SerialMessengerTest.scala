@@ -2,13 +2,14 @@ package com.lab3.arduino
 
 object SerialMessengerTest {
    def main(args: Array[String]): Unit = {
-      val smt = new SerialMessenger()
+      val sm = new SerialMessenger()
 
       while(true){
-         if(smt.readyToSend) {
-            smt.sendMessage(new MotorControlMessageAbsolute(4.toByte, 78.toByte))
+         if(sm.readyToSend) {
+            sm.sendMessage(new MotorControlMessageAbsolute((-127).toByte, 127.toByte))
          }else{
-            Thread.sleep(10)
+            print(".")
+            Thread.sleep(20)
          }
       }
    }

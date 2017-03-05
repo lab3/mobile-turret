@@ -33,6 +33,9 @@ void setup(void) {
   Serial.begin(115200);
 }
 
+int testl = 0;
+int testr = 0;
+
 void loop() {
   // while (Serial.available()) {
   //   readSerial = true;
@@ -59,7 +62,7 @@ void loop() {
     Message *m = handler.readMessage();
 
     if (m != NULL) {
-      if (++doAck % 5 == 0) {
+      if (++doAck % 7 == 0) {
         Serial.write(97);
       }
 
@@ -77,6 +80,9 @@ void loop() {
         // display.print("count:");
         // display.println(count);
         // }
+
+        testl = (int)mcma->_L;
+        testr = (int)mcma->_R;
 
         free(mcma);
         count++;
@@ -97,9 +103,12 @@ void loop() {
     if (count % 200 == 0) {
       display.fillScreen(BLACK);
       display.setCursor(0, 0);
-      display.println("no data.");
       display.print("count:");
       display.println(count);
+      display.print("l:");
+      display.println(testl);
+      display.print("r:");
+      display.println(testr);
     }
   }
 }

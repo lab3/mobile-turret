@@ -7,7 +7,7 @@ import com.pi4j.io.serial._
 class SerialMessenger {
    private[this] val serial = SerialFactory.createInstance()
    private[this] var unAcked = new AtomicInteger()
-   val maxUnacked = 5
+   val maxUnacked = 8
    init
 
    private def init: Unit = {
@@ -30,14 +30,16 @@ class SerialMessenger {
    }
 
    def sendMessage(m: Message): Unit = {
-      try {
-         if (unAcked.get() < maxUnacked) {
-            m.WriteToStream(serial)
-            unAcked.incrementAndGet()
+      this.synchronized {
+         try {
+            if (unAcked.get() < maxUnacked) {
+               m.WriteToStream(serial)
+               unAcked.incrementAndGet()
+            }
          }
-      }
-      catch {
-         case ex: Exception => println("ex1:" + ex.getMessage)
+         catch {
+            case ex: Exception => println("ex1:" + ex.getMessage)
+         }
       }
    }
 
@@ -45,7 +47,7 @@ class SerialMessenger {
       unAcked.get()
    }
 
-   def readyToSend: Boolean ={
+   def readyToSend: Boolean = {
       unAcked.get() < maxUnacked
    }
 
