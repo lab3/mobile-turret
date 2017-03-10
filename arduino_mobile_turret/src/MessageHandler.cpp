@@ -38,11 +38,8 @@ MotorControlMessageAbsolute * MessageHandler::readMotorControlMessage() {
   int l = Serial.read();
   int r = Serial.read();
 
-  MotorControlMessageAbsolute *msg =
-    (MotorControlMessageAbsolute *)malloc(sizeof(MotorControlMessageAbsolute));
-
-  msg->SetMessageType(MotorControlAbsolute);
-  msg->_L = l;
-  msg->_R = r;
-  return msg;
+  _motorControlMessageAbsolute.SetMessageType(MotorControlAbsolute);
+  _motorControlMessageAbsolute._L = l;
+  _motorControlMessageAbsolute._R = r;
+  return &_motorControlMessageAbsolute;
 }

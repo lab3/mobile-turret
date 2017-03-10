@@ -10,6 +10,7 @@ public:
         Message *readMessage();
         void writeMessage();
 private:
+        MotorControlMessageAbsolute _motorControlMessageAbsolute;
         bool readHeader();
         MessageType readType();
         MotorControlMessageAbsolute* readMotorControlMessage();
