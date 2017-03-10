@@ -15,6 +15,7 @@ object SerialMessengerTest {
                last = System.currentTimeMillis()
             }
             cnt += 1
+            Thread.sleep(20)
 
          } else {
             Thread.sleep(1)

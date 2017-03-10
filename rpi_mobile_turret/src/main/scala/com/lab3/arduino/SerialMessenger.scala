@@ -32,7 +32,7 @@ class SerialMessenger {
    def sendMessage(m: Message): Unit = {
       this.synchronized {
          try {
-            if (unAcked.get() < maxUnacked) {
+            if (readyToSend) {
                m.WriteToStream(serial)
                unAcked.incrementAndGet()
             }
@@ -48,7 +48,8 @@ class SerialMessenger {
    }
 
    def readyToSend: Boolean = {
-      unAcked.get() < maxUnacked
+      //unAcked.get() < maxUnacked
+      true
    }
 
    private def onDataReceived(event: SerialDataEvent): Unit = {
