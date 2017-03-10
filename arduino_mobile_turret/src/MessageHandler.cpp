@@ -5,7 +5,7 @@
 void      MessageHandler::writeMessage() {}
 
 Message * MessageHandler::readMessage()  {
-  if ((Serial.available() >= HEADER_SIZE) && readHeader()) {
+  if (readHeader()) {
     MessageType type = readType();
 
     if (type == SimpleMessage) {

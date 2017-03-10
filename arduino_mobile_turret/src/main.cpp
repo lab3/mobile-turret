@@ -7,8 +7,9 @@
 Adafruit_SSD1331 display = Adafruit_SSD1331(cs, dc, rst);
 MessageHandler   handler = MessageHandler();
 
-long count = 0;
-long doAck = 0;
+long count  = 0;
+long count2 = 0;
+long doAck  = 0;
 
 int testl = 0;
 int testr = 0;
@@ -64,43 +65,41 @@ void loop() {
   // ramp_pwm(50);
   // delay(10000);
 
-  if (Serial.available() >= 5) {
+  while (Serial.available() >= 5) {
     Message *m = handler.readMessage();
 
-    if (m != NULL) {
-      if (++doAck % 7 == 0) {
-        Serial.write(97);
-      }
+    if (m->GetMessageType() == MotorControlAbsolute) {
+      MotorControlMessageAbsolute *mcma = m;
+      testl = (int)mcma->_L;
+      testr = (int)mcma->_R;
+      count++;
 
-      if (m->GetMessageType() == MotorControlAbsolute) {
-        MotorControlMessageAbsolute *mcma = m;
-
-        testl = (int)mcma->_L;
-        testr = (int)mcma->_R;
-
-        free(mcma);
-        count++;
-      } else {
+      if (count % 100 == 0) {
         display.fillScreen(BLACK);
         display.setCursor(0, 0);
-        display.println("invalid message");
-        display.println(m->GetMessageType());
+        display.print("c:");
+        display.println(count);
+        display.print("l:");
+        display.println(testl);
+        display.print("r:");
+        display.println(testr);
       }
     } else {
-      display.fillScreen(RED);
+      display.fillScreen(BLUE);
       display.setCursor(0, 0);
-      display.println("null from readmessage");
+      display.println("invalid message");
+      display.println(m->GetMessageType());
     }
-  } else {
-    // if (count % 200 == 0) {
-    //   display.fillScreen(BLACK);
-    //   display.setCursor(0, 0);
-    //   display.print("count:");
-    //   display.println(count);
-    //   display.print("l:");
-    //   display.println(testl);
-    //   display.print("r:");
-    //   display.println(testr);
-    // }
   }
+
+  display.fillScreen(BLACK);
+  display.setCursor(0, 0);
+  display.print("count2:");
+  display.println(++count2);
+  display.print("count:");
+  display.println(count);
+  display.print("l:");
+  display.println(testl);
+  display.print("r:");
+  display.println(testr);
 }
