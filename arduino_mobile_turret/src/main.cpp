@@ -1,79 +1,106 @@
+#include "Adafruit_Defaults.h"
 #include "Adafruit_GFX.h"
 #include "Adafruit_SSD1331.h"
 #include "MessageHandler.h"
 #include <SPI.h>
 
-// You can use any (4 or) 5 pins
-#define sclk 13
-#define mosi 11 // sda on my chip
-#define cs   10
-#define rst  9
-#define dc   8
-
-// Color definitions
-#define BLACK           0x0000
-#define BLUE            0x001F
-#define RED             0xF800
-#define GREEN           0x07E0
-#define CYAN            0x07FF
-#define MAGENTA         0xF81F
-#define YELLOW          0xFFE0
-#define WHITE           0xFFFF
-
 Adafruit_SSD1331 display = Adafruit_SSD1331(cs, dc, rst);
 MessageHandler   handler = MessageHandler();
 
-int  count      = 0;
-int  doAck      = 0;
-bool readSerial = false;
-char itoaBuffer[33];
-void setup(void) {
-  display.begin();
-  display.fillScreen(BLACK);
-  Serial.begin(115200);
-}
+long count = 0;
+long doAck = 0;
 
 int testl = 0;
 int testr = 0;
 
-void loop() {
-  if (Serial.available() >= 5) {
-    Message *m = handler.readMessage();
+void setup(void) {
+  display.begin();
+  display.fillScreen(BLACK);
+  Serial.begin(115200);
 
-    if (m != NULL) {
-      if (++doAck % 7 == 0) {
-        Serial.write(97);
-      }
+  // left motor on/off
+  pinMode(A0, OUTPUT);
+  digitalWrite(A0, HIGH);
 
-      if (m->GetMessageType() == MotorControlAbsolute) {
-        MotorControlMessageAbsolute *mcma = m;
+  // left motor direction
+  pinMode(A1, OUTPUT);
+  digitalWrite(A1, HIGH);
 
-        testl = (int)mcma->_L;
-        testr = (int)mcma->_R;
+  // left motor pwm
+  pinMode(5, OUTPUT);
+  analogWrite(5, 0);
+}
 
-        free(mcma);
-        count++;
-      } else {
-        display.fillScreen(BLACK);
-        display.setCursor(0, 0);
-        display.println("invalid message");
-        display.println(m->GetMessageType());
-      }
-    } else {
-      display.fillScreen(RED);
-      display.setCursor(0, 0);
-      display.println("null from readmessage");
+int curPwm = 0;
+
+void ramp_pwm(int newval) {
+  if (curPwm < newval) {
+    while (curPwm < newval) {
+      analogWrite(5, ++curPwm);
+      delay(100);
     }
   } else {
-    if (count % 200 == 0) {
-      display.fillScreen(BLACK);
-      display.setCursor(0, 0);
-      display.print("count:");
-      display.println(count);
-      display.print("l:");
-      display.println(testl);
-      display.print("r:");
-      display.println(testr);
-    }
+    curPwm = newval;
+    analogWrite(5, curPwm);
   }
+}
+
+void loop() {
+  display.fillScreen(BLACK);
+  display.setCursor(0, 0);
+  display.println("sleeping for 5s");
+  delay(5000);
+
+  display.fillScreen(BLACK);
+  display.setCursor(0, 0);
+  display.println("setting motor speed to 50/255 percent");
+  ramp_pwm(50);
+  display.println("sleeping for 10s");
+  delay(10000);
+  ramp_pwm(0);
+
+  delay(2000);
+  digitalWrite(A1, LOW);
+  ramp_pwm(50);
+  delay(10000);
+
+  // if (Serial.available() >= 5) {
+  //   Message *m = handler.readMessage();
+  //
+  //   if (m != NULL) {
+  //     if (++doAck % 7 == 0) {
+  //       Serial.write(97);
+  //     }
+  //
+  //     if (m->GetMessageType() == MotorControlAbsolute) {
+  //       MotorControlMessageAbsolute *mcma = m;
+  //
+  //       testl = (int)mcma->_L;
+  //       testr = (int)mcma->_R;
+  //
+  //       free(mcma);
+  //       count++;
+  //     } else {
+  //       display.fillScreen(BLACK);
+  //       display.setCursor(0, 0);
+  //       display.println("invalid message");
+  //       display.println(m->GetMessageType());
+  //     }
+  //   } else {
+  //     display.fillScreen(RED);
+  //     display.setCursor(0, 0);
+  //     display.println("null from readmessage");
+  //   }
+  // } else {
+  //   if (count % 200 == 0) {
+  //     display.fillScreen(BLACK);
+  //     display.setCursor(0, 0);
+  //     display.print("count:");
+  //     display.println(count);
+  //     display.print("l:");
+  //     display.println(testl);
+  //     display.print("r:");
+  //     display.println(testr);
+  //   }
+  // }
 }
