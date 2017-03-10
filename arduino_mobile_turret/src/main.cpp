@@ -16,7 +16,6 @@ int testr = 0;
 
 void setup(void) {
   display.begin();
-  display.fillScreen(BLACK);
   Serial.begin(115200);
 
   // // left motor on/off
@@ -30,6 +29,9 @@ void setup(void) {
   // // left motor pwm
   // pinMode(5, OUTPUT);
   // analogWrite(5, 0);
+  display.fillScreen(GREEN);
+  display.setCursor(0, 0);
+  display.println("READY");
 }
 
 int curPwm = 0;
@@ -68,38 +70,38 @@ void loop() {
   while (Serial.available() >= 5) {
     Message *m = handler.readMessage();
 
-    if (m->GetMessageType() == MotorControlAbsolute) {
-      MotorControlMessageAbsolute *mcma = m;
-      testl = (int)mcma->_L;
-      testr = (int)mcma->_R;
-      count++;
+    if (m != NULL) {
+      if (++doAck % 7 == 0) {
+        Serial.write(97);
+      }
 
-      if (count % 100 == 0) {
-        display.fillScreen(BLACK);
+      if (m->GetMessageType() == MotorControlAbsolute) {
+        MotorControlMessageAbsolute *mcma = m;
+        testl = (int)mcma->_L;
+        testr = (int)mcma->_R;
+        count++;
+
+        if (count % 1000 == 0) {
+          display.fillScreen(BLACK);
+          display.setCursor(0, 0);
+          display.print("count:");
+          display.println(count);
+          display.print("l:");
+          display.println(testl);
+          display.print("r:");
+          display.println(testr);
+        }
+      } else {
+        display.fillScreen(BLUE);
         display.setCursor(0, 0);
-        display.print("c:");
-        display.println(count);
-        display.print("l:");
-        display.println(testl);
-        display.print("r:");
-        display.println(testr);
+        display.println("invalid message");
+        display.println(m->GetMessageType());
       }
     } else {
-      display.fillScreen(BLUE);
+      display.fillScreen(RED);
       display.setCursor(0, 0);
-      display.println("invalid message");
+      display.println("null message");
       display.println(m->GetMessageType());
     }
   }
-
-  display.fillScreen(BLACK);
-  display.setCursor(0, 0);
-  display.print("count2:");
-  display.println(++count2);
-  display.print("count:");
-  display.println(count);
-  display.print("l:");
-  display.println(testl);
-  display.print("r:");
-  display.println(testr);
 }

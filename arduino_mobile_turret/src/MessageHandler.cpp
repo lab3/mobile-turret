@@ -19,15 +19,12 @@ Message * MessageHandler::readMessage()  {
 }
 
 bool MessageHandler::readHeader()   {
-  if (Serial.available() >= HEADER_SIZE) {
-    if ((Serial.read() == 12) &&
-        (Serial.read() == 10)) {
-      return true;
-    } else {
-      return false;
-    }
+  if ((Serial.read() == 12) &&
+      (Serial.read() == 10)) {
+    return true;
+  } else {
+    return false;
   }
-  return false;
 }
 
 MessageType MessageHandler::readType() {

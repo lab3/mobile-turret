@@ -7,7 +7,7 @@ import com.pi4j.io.serial._
 class SerialMessenger {
    private[this] val serial = SerialFactory.createInstance()
    private[this] var unAcked = new AtomicInteger()
-   val maxUnacked = 8
+   val maxUnacked = 7
    init
 
    private def init: Unit = {
@@ -48,8 +48,7 @@ class SerialMessenger {
    }
 
    def readyToSend: Boolean = {
-      //unAcked.get() < maxUnacked
-      true
+      unAcked.get() <= maxUnacked
    }
 
    private def onDataReceived(event: SerialDataEvent): Unit = {

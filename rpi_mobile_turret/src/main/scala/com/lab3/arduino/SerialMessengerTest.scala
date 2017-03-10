@@ -9,16 +9,14 @@ object SerialMessengerTest {
       while (true) {
          if (sm.readyToSend) {
             sm.sendMessage(new MotorControlMessageAbsolute((-127).toByte, 127.toByte))
+            cnt += 1
 
             if(cnt % 100 == 0) {
                print(s"RPS: ${100 / ((System.currentTimeMillis() - last).toDouble / 1000)}\r")
                last = System.currentTimeMillis()
             }
-            cnt += 1
-            Thread.sleep(20)
-
          } else {
-            Thread.sleep(1)
+            Thread.sleep(2)
          }
       }
    }
