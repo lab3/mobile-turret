@@ -11,6 +11,7 @@ class ControlState{
     var vertical: Bool
     
     var percent:Double = 0.0
+    var multiplier: Double = 1.0
     
     init(scene: GameScene, sprite: SKSpriteNode, vertical: Bool){
         self.scene = scene
@@ -28,34 +29,47 @@ class ControlState{
     }
     
     func calcPercent(touchLocation: CGPoint) {
-        if(vertical){
-            let max = Double(sprite.size.height) / 2
-            var cur: Double
-            if(start.y > touchLocation.y){
-                cur = Double(start.y.subtracting(touchLocation.y))
+        
+        let curP = percent
+        
+        if(active){
+            if(vertical){
+                let max = Double(sprite.size.height) / 2
+                var cur: Double
+                if(start.y > touchLocation.y){
+                    multiplier = -1.0
+                    cur = Double(start.y.subtracting(touchLocation.y))
+                }else{
+                    multiplier = 1.0
+                    cur = Double(touchLocation.y.subtracting(start.y))
+                }
+                
+                if(cur > max){
+                    percent = 1.0
+                }else{
+                    percent = Double(cur) / max
+                }
             }else{
-                cur = Double(touchLocation.y.subtracting(start.y))
+                let max = Double(sprite.size.width) / 2
+                var cur: Double
+                if(start.x > touchLocation.x){
+                    multiplier = -1.0
+                    cur = Double(start.x.subtracting(touchLocation.x))
+                }else{
+                    multiplier = 1.0
+                    cur = Double(touchLocation.x.subtracting(start.x))
+                }
+                
+                if(cur > max){
+                    percent = 1.0
+                }else{
+                    percent = Double(cur) / max
+                }
             }
             
-            if(cur > max){
-                percent = 1.0
-            }else{
-                percent = Double(cur) / max
-            }
+            percent = percent * multiplier
         }else{
-            let max = Double(sprite.size.width) / 2
-            var cur: Double
-            if(start.x > touchLocation.x){
-                cur = Double(start.x.subtracting(touchLocation.x))
-            }else{
-                cur = Double(touchLocation.x.subtracting(start.x))
-            }
-            
-            if(cur > max){
-                percent = 1.0
-            }else{
-                percent = Double(cur) / max
-            }
+            percent = 0
         }
     }
     
@@ -103,9 +117,10 @@ class ControlState{
     func handleEnd(touch: UITouch) -> Bool{
         if (myTouch == touch) {
             if(touchDot.parent != nil){
+                let touchLocation = touch.location(in: scene)
                 touchDot.removeFromParent()
                 active = false
-                percent = 0
+                calcPercent(touchLocation: touchLocation)
                 return true
             }
         }

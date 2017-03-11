@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01DE35323DE5A12FD2D2182C /* Pods_Mobile_Turret.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68611E21F6997D18841320DF /* Pods_Mobile_Turret.framework */; };
 		BF6DFDE91E73D17A00A503E9 /* ControlState.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6DFDE81E73D17A00A503E9 /* ControlState.swift */; };
 		BF6DFDEB1E74794F00A503E9 /* ButtonState.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6DFDEA1E74794F00A503E9 /* ButtonState.swift */; };
+		BF6DFDED1E7483DF00A503E9 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = BF6DFDEC1E7483DF00A503E9 /* Podfile */; };
 		BFA8ACE71E73AD240021AC0C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA8ACE61E73AD240021AC0C /* AppDelegate.swift */; };
 		BFA8ACE91E73AD240021AC0C /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = BFA8ACE81E73AD240021AC0C /* GameScene.sks */; };
 		BFA8ACEB1E73AD240021AC0C /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = BFA8ACEA1E73AD240021AC0C /* Actions.sks */; };
@@ -20,8 +22,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		68611E21F6997D18841320DF /* Pods_Mobile_Turret.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mobile_Turret.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF6DFDE81E73D17A00A503E9 /* ControlState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlState.swift; sourceTree = "<group>"; };
 		BF6DFDEA1E74794F00A503E9 /* ButtonState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonState.swift; sourceTree = "<group>"; };
+		BF6DFDEC1E7483DF00A503E9 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		BFA8ACE31E73AD240021AC0C /* Mobile Turret.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mobile Turret.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFA8ACE61E73AD240021AC0C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BFA8ACE81E73AD240021AC0C /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -32,6 +36,8 @@
 		BFA8ACF31E73AD240021AC0C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BFA8ACF61E73AD240021AC0C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BFA8ACF81E73AD240021AC0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F6BEA20C69B5D874148795A4 /* Pods-Mobile Turret.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mobile Turret.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mobile Turret/Pods-Mobile Turret.debug.xcconfig"; sourceTree = "<group>"; };
+		FF0308FD78B61F28F490E5E8 /* Pods-Mobile Turret.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mobile Turret.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mobile Turret/Pods-Mobile Turret.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,17 +45,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01DE35323DE5A12FD2D2182C /* Pods_Mobile_Turret.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A912273448C55B492A235271 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				68611E21F6997D18841320DF /* Pods_Mobile_Turret.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		BFA8ACDA1E73AD240021AC0C = {
 			isa = PBXGroup;
 			children = (
+				BF6DFDEC1E7483DF00A503E9 /* Podfile */,
 				BFA8ACE51E73AD240021AC0C /* Mobile Turret */,
 				BFA8ACE41E73AD240021AC0C /* Products */,
+				FF5C06FBC05DD9AB47442DBC /* Pods */,
+				A912273448C55B492A235271 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -79,6 +97,15 @@
 			path = "Mobile Turret";
 			sourceTree = "<group>";
 		};
+		FF5C06FBC05DD9AB47442DBC /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F6BEA20C69B5D874148795A4 /* Pods-Mobile Turret.debug.xcconfig */,
+				FF0308FD78B61F28F490E5E8 /* Pods-Mobile Turret.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -86,9 +113,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BFA8ACFB1E73AD240021AC0C /* Build configuration list for PBXNativeTarget "Mobile Turret" */;
 			buildPhases = (
+				53CB6599C22A30D6BFEBDC3D /* [CP] Check Pods Manifest.lock */,
 				BFA8ACDF1E73AD240021AC0C /* Sources */,
 				BFA8ACE01E73AD240021AC0C /* Frameworks */,
 				BFA8ACE11E73AD240021AC0C /* Resources */,
+				F50CD1A6C04A6CADD8EC1A79 /* [CP] Embed Pods Frameworks */,
+				56545BAD099DD5352C06E538 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -139,6 +169,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF6DFDED1E7483DF00A503E9 /* Podfile in Resources */,
 				BFA8ACF21E73AD240021AC0C /* Main.storyboard in Resources */,
 				BFA8ACE91E73AD240021AC0C /* GameScene.sks in Resources */,
 				BFA8ACF41E73AD240021AC0C /* Assets.xcassets in Resources */,
@@ -148,6 +179,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		53CB6599C22A30D6BFEBDC3D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		56545BAD099DD5352C06E538 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Mobile Turret/Pods-Mobile Turret-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F50CD1A6C04A6CADD8EC1A79 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Mobile Turret/Pods-Mobile Turret-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		BFA8ACDF1E73AD240021AC0C /* Sources */ = {
@@ -279,6 +358,7 @@
 		};
 		BFA8ACFC1E73AD240021AC0C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F6BEA20C69B5D874148795A4 /* Pods-Mobile Turret.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = ESGM672958;
@@ -293,6 +373,7 @@
 		};
 		BFA8ACFD1E73AD240021AC0C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FF0308FD78B61F28F490E5E8 /* Pods-Mobile Turret.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = ESGM672958;

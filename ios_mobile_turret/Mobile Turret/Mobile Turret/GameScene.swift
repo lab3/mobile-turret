@@ -1,4 +1,5 @@
 import SpriteKit
+import Alamofire
 
 class GameScene: SKScene {
     let controlL = SKSpriteNode(imageNamed: "dpad_slim")
@@ -7,6 +8,7 @@ class GameScene: SKScene {
     
     let leftPercent = SKLabelNode(fontNamed: "Arial")
     let rightPercent = SKLabelNode(fontNamed: "Arial")
+    let turretPercent = SKLabelNode(fontNamed: "Arial")
     
     let fireNormal = SKSpriteNode(imageNamed: "fire_button4")
     let firePressed = SKSpriteNode(imageNamed: "fire_button_pressed")
@@ -50,9 +52,17 @@ class GameScene: SKScene {
         rightPercent.fontColor = SKColor.green
         rightPercent.horizontalAlignmentMode = .left
         rightPercent.position = CGPoint(x: 20, y: size.height * 0.8)
+
+        turretPercent.text = "0.0"
+        turretPercent.fontSize = 25
+        turretPercent.fontColor = SKColor.red
+        turretPercent.horizontalAlignmentMode = .left
+        turretPercent.position = CGPoint(x: 20, y: size.height * 0.88)
+
         
         addChild(leftPercent)
         addChild(rightPercent)
+        addChild(turretPercent)
         
         addChild(controlL)
         addChild(controlR)
@@ -60,6 +70,26 @@ class GameScene: SKScene {
         addChild(fireNormal)
         firePressed.isHidden = true
         addChild(firePressed)
+        
+        DispatchQueue.global().async {
+            var pending = false
+            while(true){
+                if(!pending){
+                    pending = true
+                    
+                    let lval = Int(self.left!.percent * 127.0)
+                    let rval = Int(self.right!.percent * 127.0)
+                    
+                    let url = "http://lbpi3:8080/mca/" + String(lval) + "/" + String(rval)
+                    Alamofire.request(url).responseJSON { response in
+                        pending = false
+                        NSLog(response.data.debugDescription)
+                        debugPrint("Ok1")
+                    }
+                }
+                usleep(5000) //5ms => (1ms = 1000us)
+            }
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -85,8 +115,9 @@ class GameScene: SKScene {
             fire!.handleMove(touch: touch)
         }
 
-        leftPercent.text = String(format: "%.2f", left!.percent)
-        rightPercent.text = String(format: "%.2f", right!.percent)
+        leftPercent.text = String(format: "%.3f", left!.percent)
+        rightPercent.text = String(format: "%.3f", right!.percent)
+        turretPercent.text = String(format: "%.3f", turret!.percent)
 
     }
     
@@ -101,8 +132,10 @@ class GameScene: SKScene {
              fire!.handleEnd(touch: touch)
         }
     
-    leftPercent.text = String(format: "%.2f", left!.percent)
-    rightPercent.text = String(format: "%.2f", right!.percent)
+    leftPercent.text = String(format: "%.3f", left!.percent)
+    rightPercent.text = String(format: "%.3f", right!.percent)
+    turretPercent.text = String(format: "%.3f", turret!.percent)
+    
     }
     
 }

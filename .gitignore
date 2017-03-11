@@ -58,3 +58,6 @@ xcuserdata/
 *.dSYM
 timeline.xctimeline
 playground.xcworkspace
+
+#pods
+Pods/
