@@ -2,7 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "fire_button2.png",
+      "filename" : "fire_button_pressed.png",
       "scale" : "1x"
     },
     {
