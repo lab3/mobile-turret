@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BF6DFDE91E73D17A00A503E9 /* ControlState.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6DFDE81E73D17A00A503E9 /* ControlState.swift */; };
 		BFA8ACE71E73AD240021AC0C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA8ACE61E73AD240021AC0C /* AppDelegate.swift */; };
 		BFA8ACE91E73AD240021AC0C /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = BFA8ACE81E73AD240021AC0C /* GameScene.sks */; };
 		BFA8ACEB1E73AD240021AC0C /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = BFA8ACEA1E73AD240021AC0C /* Actions.sks */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BF6DFDE81E73D17A00A503E9 /* ControlState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlState.swift; sourceTree = "<group>"; };
 		BFA8ACE31E73AD240021AC0C /* Mobile Turret.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mobile Turret.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFA8ACE61E73AD240021AC0C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BFA8ACE81E73AD240021AC0C /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 				BFA8ACF31E73AD240021AC0C /* Assets.xcassets */,
 				BFA8ACF51E73AD240021AC0C /* LaunchScreen.storyboard */,
 				BFA8ACF81E73AD240021AC0C /* Info.plist */,
+				BF6DFDE81E73D17A00A503E9 /* ControlState.swift */,
 			);
 			path = "Mobile Turret";
 			sourceTree = "<group>";
@@ -151,6 +154,7 @@
 				BFA8ACED1E73AD240021AC0C /* GameScene.swift in Sources */,
 				BFA8ACEF1E73AD240021AC0C /* GameViewController.swift in Sources */,
 				BFA8ACE71E73AD240021AC0C /* AppDelegate.swift in Sources */,
+				BF6DFDE91E73D17A00A503E9 /* ControlState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,6 +320,7 @@
 				BFA8ACFD1E73AD240021AC0C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

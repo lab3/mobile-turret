@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:Mobile Turret.xcodeproj">
+      location = "self:/Users/len/projects/mobile-turret/ios_mobile_turret/Mobile Turret/Mobile Turret.xcodeproj">
    </FileRef>
 </Workspace>

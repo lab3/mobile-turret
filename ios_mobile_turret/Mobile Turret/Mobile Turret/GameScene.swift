@@ -1,89 +1,70 @@
-//
-//  GameScene.swift
-//  Mobile Turret
-//
-//  Created by Len on 3/10/17.
-//  Copyright © 2017 redspace. All rights reserved.
-//
-
 import SpriteKit
-import GameplayKit
 
 class GameScene: SKScene {
+    let controlL = SKSpriteNode(imageNamed: "dpad_slim")
+    let controlR = SKSpriteNode(imageNamed: "dpad_slim")
+    let controlT = SKSpriteNode(imageNamed: "dpad_lr")
+    let fire = SKSpriteNode(imageNamed: "fire_button4")
     
-    private var label : SKLabelNode?
-    private var spinnyNode : SKShapeNode?
+    var left: ControlState? = nil
+    var right: ControlState? = nil
+    var turret: ControlState? = nil
+
     
     override func didMove(to view: SKView) {
+        backgroundColor = SKColor.white
         
-        // Get label node from scene and store it for use later
-        self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
-        if let label = self.label {
-            label.alpha = 0.0
-            label.run(SKAction.fadeIn(withDuration: 2.0))
-        }
+        left = ControlState(scene: self, sprite: controlL)
+        right = ControlState(scene: self, sprite: controlR)
+        turret = ControlState(scene: self, sprite: controlT)
         
-        // Create shape node to use during mouse interaction
-        let w = (self.size.width + self.size.height) * 0.05
-        self.spinnyNode = SKShapeNode.init(rectOf: CGSize.init(width: w, height: w), cornerRadius: w * 0.3)
+        controlL.position = CGPoint(x: size.width * 0.1, y: size.height * 0.2)
+        controlL.size = CGSize(width: 200, height: 200)
+
+        controlR.position = CGPoint(x: size.width - (size.width * 0.1), y: size.height * 0.2)
+        controlR.size = CGSize(width: 200, height: 200)
+
+        controlT.position = CGPoint(x: size.width * 0.40, y: size.height * 0.2)
+        controlT.size = CGSize(width: 400, height: 80)
+
+        fire.position = CGPoint(x: size.width - (size.width * 0.25), y: size.height * 0.2)
+        fire.size = CGSize(width: 150, height: 150)
         
-        if let spinnyNode = self.spinnyNode {
-            spinnyNode.lineWidth = 2.5
-            
-            spinnyNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(M_PI), duration: 1)))
-            spinnyNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
-                                              SKAction.fadeOut(withDuration: 0.5),
-                                              SKAction.removeFromParent()]))
-        }
-    }
-    
-    
-    func touchDown(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.green
-            self.addChild(n)
-        }
-    }
-    
-    func touchMoved(toPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.blue
-            self.addChild(n)
-        }
-    }
-    
-    func touchUp(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.red
-            self.addChild(n)
-        }
+        addChild(controlL)
+        addChild(controlR)
+        addChild(controlT)
+        addChild(fire)
+        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let label = self.label {
-            label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
-        }
+        NSLog("b" + String(touches.count))
         
-        for t in touches { self.touchDown(atPoint: t.location(in: self)) }
+        for touch in touches{
+            left!.handleStart(touch: touch) ||
+                right!.handleStart(touch: touch) ||
+                turret!.handleStart(touch: touch)
+        }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
+        NSLog("m" + String(touches.count))
+        
+        for touch in touches{
+            left!.handleMove(touch: touch) ||
+                right!.handleMove(touch: touch) ||
+                turret!.handleMove(touch: touch)
+        }
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+   override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        NSLog("e" + String(touches.count))
+        
+        for touch in touches{
+            left!.handleEnd(touch: touch) ||
+                right!.handleEnd(touch:touch) ||
+                turret!.handleEnd(touch: touch)
+        }
     }
     
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
-    }
-    
-    
-    override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
-    }
 }
