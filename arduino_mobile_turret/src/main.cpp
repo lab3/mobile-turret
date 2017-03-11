@@ -48,6 +48,8 @@ void ramp_pwm(int newval) {
   }
 }
 
+char b[5];
+
 void loop() {
   // display.fillScreen(BLACK);
   // display.setCursor(0, 0);
@@ -68,40 +70,17 @@ void loop() {
   // delay(10000);
 
   while (Serial.available() >= 5) {
-    Message *m = handler.readMessage();
+    Serial.readBytes(b, 5);
 
-    if (m != NULL) {
-      if (++doAck % 7 == 0) {
-        Serial.write(97);
-      }
+    if (++doAck == 7) {
+      doAck = 0;
+      Serial.write('Z');
+    }
 
-      if (m->GetMessageType() == MotorControlAbsolute) {
-        MotorControlMessageAbsolute *mcma = m;
-        testl = (int)mcma->_L;
-        testr = (int)mcma->_R;
-        count++;
-
-        if (count % 1000 == 0) {
-          display.fillScreen(BLACK);
-          display.setCursor(0, 0);
-          display.print("count:");
-          display.println(count);
-          display.print("l:");
-          display.println(testl);
-          display.print("r:");
-          display.println(testr);
-        }
-      } else {
-        display.fillScreen(BLUE);
-        display.setCursor(0, 0);
-        display.println("invalid message");
-        display.println(m->GetMessageType());
-      }
-    } else {
-      display.fillScreen(RED);
+    if (++count % 30000 == 0) {
+      display.fillScreen(BLACK);
       display.setCursor(0, 0);
-      display.println("null message");
-      display.println(m->GetMessageType());
+      display.println(count);
     }
   }
 }
