@@ -6,17 +6,19 @@ object SerialMessengerTest {
       var last = System.currentTimeMillis()
       var cnt = 0
 
+      println("Started:" + sm.isOpen())
+
       while (true) {
          if (sm.readyToSend) {
             sm.sendMessage(new MotorControlMessageAbsolute((-127).toByte, 127.toByte))
             cnt += 1
 
-            if(cnt % 100 == 0) {
-               print(s"RPS: ${100 / ((System.currentTimeMillis() - last).toDouble / 1000)}\r")
+            if(cnt % 2000 == 0) {
+               print(s"RPS: ${2000.toDouble / ((System.currentTimeMillis() - last).toDouble / 1000)}\r")
                last = System.currentTimeMillis()
             }
          } else {
-            Thread.sleep(2)
+            Thread.sleep(1)
          }
       }
    }

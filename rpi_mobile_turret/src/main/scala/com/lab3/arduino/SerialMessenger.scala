@@ -6,18 +6,11 @@ import com.pi4j.io.serial._
 
 class SerialMessenger {
    private[this] val serial = SerialFactory.createInstance()
-   private[this] var unAcked = new AtomicInteger()
+   private[this] var unAcked = new AtomicInteger(0)
    val maxUnacked = 7
    init
 
    private def init: Unit = {
-
-      serial.addListener(new SerialDataEventListener {
-         def dataReceived(event: SerialDataEvent): Unit = {
-            onDataReceived(event)
-         }
-      })
-
       val config = new SerialConfig()
       config.device("/dev/ttyAMA0")
          .baud(Baud._115200)
@@ -27,6 +20,10 @@ class SerialMessenger {
          .flowControl(FlowControl.NONE)
 
       serial.open(config)
+   }
+
+   def isOpen() = {
+      serial.isOpen
    }
 
    def sendMessage(m: Message): Unit = {
@@ -48,14 +45,13 @@ class SerialMessenger {
    }
 
    def readyToSend: Boolean = {
-      unAcked.get() <= maxUnacked
-   }
-
-   private def onDataReceived(event: SerialDataEvent): Unit = {
-      try {
-         unAcked.set(0)
-      } catch {
-         case ex: Exception => println("ex2:" + ex.getMessage)
+      if (unAcked.get() > maxUnacked) {
+         val x = serial.read(1)
+         if (x.nonEmpty && x(0) == 'Z') {
+            unAcked.set(0)
+         }
       }
+
+      unAcked.get() <= maxUnacked
    }
 }
