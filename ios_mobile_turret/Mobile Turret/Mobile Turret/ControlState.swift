@@ -42,6 +42,20 @@ class ControlState{
             }else{
                 percent = Double(cur) / max
             }
+        }else{
+            let max = Double(sprite.size.width) / 2
+            var cur: Double
+            if(start.x > touchLocation.x){
+                cur = Double(start.x.subtracting(touchLocation.x))
+            }else{
+                cur = Double(touchLocation.x.subtracting(start.x))
+            }
+            
+            if(cur > max){
+                percent = 1.0
+            }else{
+                percent = Double(cur) / max
+            }
         }
     }
     
