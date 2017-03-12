@@ -9,6 +9,7 @@ import com.twitter.finatra.http.Controller
 class DefaultController extends Controller {
 
    var helloCount = new AtomicInteger()
+   var mcaCount = new AtomicInteger()
 
    get("/hello") { request: Request =>
       println(s"""{"hello":${helloCount.incrementAndGet()}}""")
@@ -19,7 +20,7 @@ class DefaultController extends Controller {
       val l = request.getIntParam("L", 0)
       val r = request.getIntParam("R", 0)
 
-      println(l + ":" + r)
+      println(s"cnt:${mcaCount.incrementAndGet()} L:$l R:$r")
       "hello"
    }
 
