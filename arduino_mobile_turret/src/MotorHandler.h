@@ -5,63 +5,79 @@
 class MotorHandler {
 private:
 
-  int  _leftSpeed    = 0;
-  bool _leftForward  = true;
-  int  _rightSpeed   = 0;
-  bool _rightForward = true;
+  static int leftSpeed;
+  static bool leftForward;
+  static int rightSpeed;
+  static bool rightForward;
 
 public:
 
-  MotorHandler() {
-    _leftSpeed    = 0;
-    _leftForward  = true;
-    _rightSpeed   = 0;
-    _rightForward = true;
-  }
+  MotorHandler() {}
 
-  void kill() {
-    // left motor
-    digitalWrite(A0, LOW);
-  }
+  static void setSpeed(char Left,
+                       char Right);
+  void        kill();
+  void        enable();
+  void        begin();
+};
 
-  void ebable() {
-    // left motor
-    digitalWrite(A0, HIGH);
-  }
+int  MotorHandler::leftSpeed    = 0;
+bool MotorHandler::leftForward  = true;
+int  MotorHandler::rightSpeed   = 0;
+bool MotorHandler::rightForward = true;
 
-  void begin() {
-    pinMode(A0, OUTPUT);
-    digitalWrite(A0, HIGH);
+void MotorHandler::begin() {
+  // left motor pwm to off just to be safe
+  pinMode(5, OUTPUT);
+  analogWrite(5, 0);
 
-    // set left motor direction forward
-    pinMode(A1, OUTPUT);
-    digitalWrite(A1, HIGH);
-    delay(10);
-    digitalWrite(A1, LOW);
+  // enable left motor
+  pinMode(A0, OUTPUT);
+  digitalWrite(A0, HIGH);
 
-    // left motor pwm
-    pinMode(5, OUTPUT);
-    analogWrite(5, 0);
-  }
+  // set left motor direction forward
+  pinMode(A1, OUTPUT);
+  digitalWrite(A1, HIGH);
+  delay(10);
+  digitalWrite(A1, LOW);
 
-  void setLeftSpeed(int speed) {
-    _leftSpeed = speed;
-    analogWrite(5, _leftSpeed);
-  }
+  // TODO: right motor
+}
 
-  void setLeft(int speed, bool forward) {
-    _leftSpeed = speed;
-    analogWrite(5, _leftSpeed);
+void MotorHandler::kill() {
+  // left motor
+  digitalWrite(A0, LOW);
 
-    if (_leftForward != forward) {
-      _leftForward = forward;
+  // TODO: right motor
+}
 
-      if (forward) {
-        digitalWrite(A1, LOW);
-      } else {
-        digitalWrite(A1, HIGH);
-      }
+void MotorHandler::enable() {
+  // left motor
+  digitalWrite(A0, HIGH);
+
+  // TODO: right motor
+}
+
+void MotorHandler::setSpeed(char left, char right) {
+  // LEFT MOTOR
+  if (left >= 0) {
+    leftSpeed = left * 2; // convert to 0-255 scale
+
+    if (!leftForward) {
+      leftForward = true;
+      digitalWrite(A1, LOW);
     }
   }
-};
+  else {
+    leftSpeed = left * -2; // convert to 0-255 scale
+
+    if (leftForward) {
+      leftForward = false;
+      digitalWrite(A1, HIGH);
+    }
+  }
+
+  // TODO: right motor
+}
+
 #endif // ifndef MOTORHANDLER_H
