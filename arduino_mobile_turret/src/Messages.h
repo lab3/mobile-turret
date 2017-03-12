@@ -1,10 +1,10 @@
 #ifndef MESSAGES_H
 #define MESSAGES_H
 
-enum MessageType {
+enum MessageType : char {
   SimpleMessage        = 0,
-  MotorControlRelative = 255,
-  MotorControlAbsolute = 254
+  MotorControlRelative = (char)255,
+  MotorControlAbsolute = (char)254
 };
 
 struct Message {

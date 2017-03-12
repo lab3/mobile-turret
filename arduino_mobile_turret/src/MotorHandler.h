@@ -24,7 +24,7 @@ public:
     digitalWrite(A0, LOW);
   }
 
-  void enable() {
+  void ebable() {
     // left motor
     digitalWrite(A0, HIGH);
   }

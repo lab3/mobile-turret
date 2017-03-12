@@ -18,14 +18,15 @@ class I2CMessenger {
       this.synchronized {
          try {
             val wb = new Array[Byte](5)
-            wb(0) = 'A'
-            wb(1) = 'B'
-            wb(2) = 'C'
-            wb(3) = 'D'
-            wb(4) = 'E'
-            val rb = Array[Byte](5)
-            val ret = device.read(wb, 0, 5, rb, 0, 5)
-            //println("ret:" + ret + " rb(0):" + rb(0))
+            val rb = new Array[Byte](2)
+            wb(0) = 'C'
+            wb(1) = 'A'
+            wb(2) = MessageType.MotorControlMessageAbsolute
+            wb(3) = 'H'
+            wb(4) = 'I'
+            val ret = device.read(wb, 0, 5, rb, 0, 2)
+            println("ret:" + ret);
+            println("rb(0):" + rb(0).toChar + " rb(1):" + rb(1).toChar)
          }
          catch {
             case ex: Exception => println("ex1:" + ex.getMessage)
@@ -48,13 +49,14 @@ object I2CMessengerTest {
 
          i2c.sendTestMessage()
          cnt += 1
+         println(cnt + " messages sent")
 
          if (cnt % mod == 0) {
             print(s"CNT: $cnt\tRPS: ${mod.toDouble / ((System.currentTimeMillis() - last).toDouble / 1000)}\r")
             last = System.currentTimeMillis()
          }
 
-         //Thread.sleep(1000)
+         Thread.sleep(2000)
       }
    }
 }
