@@ -19,10 +19,10 @@ void toScreen(const String& s, uint16_t screenColor, uint16_t textColor) {
 }
 
 void toScreen(const String& s) {
-  display.fillScreen(BLACK);
-  display.setTextColor(RED);
-  display.setCursor(0, 0);
-  display.println(s);
+  // display.fillScreen(BLACK);
+  // display.setTextColor(RED);
+  // display.setCursor(0, 0);
+  // display.println(s);
 }
 
 void setup(void) {
@@ -30,9 +30,10 @@ void setup(void) {
   display.fillScreen(BLACK);
   display.println("Display init");
 
-  // motors.begin();
+  motors.setToScreen(toScreen);
+  motors.begin();
 
-  // i2c.setToScreen(toScreen);
+  i2c.setToScreen(toScreen);
   i2c.begin();
 
   // delay(5000);

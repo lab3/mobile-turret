@@ -9,11 +9,13 @@ private:
   static bool leftForward;
   static int rightSpeed;
   static bool rightForward;
+  static void (*toScreen)(const String&);
 
 public:
 
   MotorHandler() {}
 
+  void        setToScreen(void (*toScreen)(const String&));
   static void setSpeed(char Left,
                        char Right);
   void        kill();
@@ -25,6 +27,12 @@ int  MotorHandler::leftSpeed    = 0;
 bool MotorHandler::leftForward  = true;
 int  MotorHandler::rightSpeed   = 0;
 bool MotorHandler::rightForward = true;
+void(*MotorHandler::toScreen)(const String&);
+
+void MotorHandler::setToScreen(void (*function)(const String&))
+{
+  toScreen = function;
+}
 
 void MotorHandler::begin() {
   // left motor pwm to off just to be safe
@@ -59,9 +67,12 @@ void MotorHandler::enable() {
 }
 
 void MotorHandler::setSpeed(char left, char right) {
+  toScreen("setspeed");
+
   // LEFT MOTOR
   if (left >= 0) {
     leftSpeed = left * 2; // convert to 0-255 scale
+    analogWrite(5, leftSpeed);
 
     if (!leftForward) {
       leftForward = true;
@@ -70,6 +81,7 @@ void MotorHandler::setSpeed(char left, char right) {
   }
   else {
     leftSpeed = left * -2; // convert to 0-255 scale
+    analogWrite(5, leftSpeed);
 
     if (leftForward) {
       leftForward = false;

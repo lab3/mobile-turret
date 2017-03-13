@@ -47,6 +47,7 @@ void i2cSlaveDispatcher::receiveData(int size) {
 
   if ((buffer[0] == 'C') && (buffer[1] == 'A')) {
     if (buffer[2] == MotorControlAbsolute) {
+      toScreen("msg3");
       MotorHandler::setSpeed(buffer[3], buffer[4]);
     }
   }

@@ -1,9 +1,14 @@
 package com.lab3.webserver
 
+import com.lab3.arduino.I2CMessenger
 import com.twitter.finatra.http.HttpServer
 import com.twitter.finatra.http.routing.HttpRouter
 
 object ServerMain extends Server
+
+object i2c {
+   val messenger = new I2CMessenger()
+}
 
 class Server extends HttpServer {
 

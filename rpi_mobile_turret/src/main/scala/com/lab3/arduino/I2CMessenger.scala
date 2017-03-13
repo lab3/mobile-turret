@@ -14,6 +14,31 @@ class I2CMessenger {
       device = serial.getDevice(0x04)
    }
 
+   def sendMotorControlMessage(left: Int, right: Int): Unit = {
+      this.synchronized {
+         try {
+            val wb = new Array[Byte](5)
+            val rb = new Array[Byte](2)
+            wb(0) = 'C'
+            wb(1) = 'A'
+            wb(2) = MessageType.MotorControlMessageAbsolute
+            wb(3) = left.toByte
+            wb(4) = right.toByte
+            val ret = device.read(wb, 0, 5, rb, 0, 2)
+
+            //TODO: what is ret used for?
+
+            if (rb(0).toChar != 'Z' && rb(0).toChar != 'X') {
+               //TODO: handle ack failure
+            }
+         }
+         catch {
+            case ex: Exception => println("ex1:" + ex.getMessage)
+               ex.printStackTrace()
+         }
+      }
+   }
+
    def sendTestMessage(): Unit = {
       this.synchronized {
          try {
@@ -25,8 +50,12 @@ class I2CMessenger {
             wb(3) = 'H'
             wb(4) = 'I'
             val ret = device.read(wb, 0, 5, rb, 0, 2)
-            println("ret:" + ret);
-            println("rb(0):" + rb(0).toChar + " rb(1):" + rb(1).toChar)
+
+            //TODO: what is ret used for?
+
+            if (rb(0).toChar != 'Z' && rb(0).toChar != 'X') {
+               //TODO: handle ack failure
+            }
          }
          catch {
             case ex: Exception => println("ex1:" + ex.getMessage)
