@@ -20,7 +20,7 @@ class DefaultController  extends Controller {
    get("/mca/:L/:R") { request: Request =>
       val l = request.getIntParam("L", 0)
       val r = request.getIntParam("R", 0)
-      i2c.messenger.sendMotorControlMessage(l, r)
+      ServerMain.i2c.sendMotorControlMessage(l, r)
 
       println(s"cnt:${mcaCount.incrementAndGet()} L:$l R:$r")
       """{"result":"ok"}"""

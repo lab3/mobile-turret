@@ -10,6 +10,8 @@ class I2CMessenger {
    private[this] var device: I2CDevice = null
    init
 
+   var lastMotorControl = System.currentTimeMillis()
+
    private def init: Unit = {
       device = serial.getDevice(0x04)
    }
@@ -25,6 +27,8 @@ class I2CMessenger {
             wb(3) = left.toByte
             wb(4) = right.toByte
             val ret = device.read(wb, 0, 5, rb, 0, 2)
+
+            lastMotorControl = System.currentTimeMillis()
 
             //TODO: what is ret used for?
 

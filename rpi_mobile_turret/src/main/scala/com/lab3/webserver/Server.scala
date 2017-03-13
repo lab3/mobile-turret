@@ -3,12 +3,33 @@ package com.lab3.webserver
 import com.lab3.arduino.I2CMessenger
 import com.twitter.finatra.http.HttpServer
 import com.twitter.finatra.http.routing.HttpRouter
+import org.joda.time.DateTime
 
-object ServerMain extends Server
+object ServerMain {
+   val i2c = new I2CMessenger()
+   val server = new Server()
 
-object i2c {
-   val messenger = new I2CMessenger()
+   def main(args: Array[String]): Unit = {
+      val motorFailsafe = new Thread(new Runnable {
+         override def run() = motorFailSafe()
+      })
+
+      motorFailsafe.start()
+
+      server.main(args)
+   }
+
+
+   def motorFailSafe(): Unit = {
+      while (true) {
+         if (System.currentTimeMillis() - i2c.lastMotorControl > 350) {
+            i2c.sendMotorControlMessage(0, 0)
+         }
+         Thread.sleep(100)
+      }
+   }
 }
+
 
 class Server extends HttpServer {
 
