@@ -10,6 +10,9 @@ object ServerMain {
    val server = new Server()
 
    def main(args: Array[String]): Unit = {
+
+      i2c.init
+
       val motorFailsafe = new Thread(new Runnable {
          override def run() = motorFailSafe()
       })
