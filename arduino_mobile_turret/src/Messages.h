@@ -4,7 +4,8 @@
 enum MessageType : char {
   SimpleMessage        = 0,
   MotorControlRelative = (char)255,
-  MotorControlAbsolute = (char)254
+  MotorControlAbsolute = (char)254,
+  MotorControlFailsafe = (char)253
 };
 
 struct Message {

@@ -11,7 +11,7 @@ MessageHandler     messages = MessageHandler();
 MotorHandler       motors   = MotorHandler();
 i2cSlaveDispatcher i2c      = i2cSlaveDispatcher();
 
-void toScreen(const String& s, uint16_t screenColor, uint16_t textColor) {
+void toScreen2(const String& s, uint16_t screenColor, uint16_t textColor) {
   display.fillScreen(screenColor);
   display.setTextColor(textColor);
   display.setCursor(0, 0);
@@ -27,13 +27,13 @@ void toScreen(const String& s) {
 
 void setup(void) {
   display.begin();
-  display.fillScreen(BLACK);
-  display.println("Display init");
+  toScreen2("No control", RED, BLACK);
 
   motors.setToScreen(toScreen);
   motors.begin();
 
   i2c.setToScreen(toScreen);
+  i2c.setToScreen2(toScreen2);
   i2c.begin();
 
   // delay(5000);

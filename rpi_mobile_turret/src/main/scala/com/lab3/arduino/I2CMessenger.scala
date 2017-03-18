@@ -43,6 +43,32 @@ class I2CMessenger {
          }
       }
    }
+
+   def sendMotorControlFailsafe(): Unit = {
+      this.synchronized {
+         try {
+            val wb = new Array[Byte](5)
+            val rb = new Array[Byte](2)
+            wb(0) = 'C'
+            wb(1) = 'A'
+            wb(2) = MessageType.MotorControlMessageFailsafe
+            wb(3) = 0
+            wb(4) = 0
+            val ret = device.read(wb, 0, 5, rb, 0, 2)
+
+            lastMotorControl = System.currentTimeMillis()
+
+            //TODO: what is ret used for?
+
+            if (rb(0).toChar != 'Z' && rb(0).toChar != 'X') {
+               //TODO: handle ack failure
+            }
+         }
+         catch {
+            case ex: Exception => println("ex1:" + ex.getMessage)
+         }
+      }
+   }
 }
 
 //object I2CMessengerTest {

@@ -5,6 +5,7 @@ import com.pi4j.io.serial.Serial
 object MessageType {
    val MotorControlMessageRelative: Byte = 255.toByte
    val MotorControlMessageAbsolute: Byte = 254.toByte
+   val MotorControlMessageFailsafe: Byte = 253.toByte
 }
 
 trait Message {

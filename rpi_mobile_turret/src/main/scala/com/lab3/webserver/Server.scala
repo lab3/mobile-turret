@@ -26,7 +26,7 @@ object ServerMain {
    def motorFailSafe(): Unit = {
       while (true) {
          if (System.currentTimeMillis() - i2c.lastMotorControl > 350) {
-            i2c.sendMotorControlMessage(0, 0)
+            i2c.sendMotorControlFailsafe()
          }
          Thread.sleep(100)
       }
