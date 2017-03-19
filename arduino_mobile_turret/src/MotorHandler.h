@@ -18,13 +18,19 @@ private:
   static bool leftForward;
   static int rightSpeed;
   static bool rightForward;
-  static void (*toScreen)(const String&);
+  static void (*toScreen)(const String&,
+                          uint16_t screenColor,
+                          uint16_t textColor);
 
 public:
 
   MotorHandler() {}
 
-  void        setToScreen(void (*toScreen)(const String&));
+  void setToScreen(void (    *toScreen)(
+                     const String&,
+                     uint16_t screenColor,
+                     uint16_t textColor));
+
   static void setSpeed(char Left,
                        char Right);
   void        kill();
@@ -36,9 +42,15 @@ int  MotorHandler::leftSpeed    = 0;
 bool MotorHandler::leftForward  = true;
 int  MotorHandler::rightSpeed   = 0;
 bool MotorHandler::rightForward = true;
-void(*MotorHandler::toScreen)(const String&);
 
-void MotorHandler::setToScreen(void (*function)(const String&))
+void(*MotorHandler::toScreen)(const String&,
+                              uint16_t screenColor,
+                              uint16_t textColor);
+
+void MotorHandler::setToScreen(void (    *function)(
+                                 const String&,
+                                 uint16_t screenColor,
+                                 uint16_t textColor))
 {
   toScreen = function;
 }
@@ -92,8 +104,6 @@ void MotorHandler::enable() {
 }
 
 void MotorHandler::setSpeed(char left, char right) {
-  toScreen("setspeed");
-
   // LEFT MOTOR
   if (left >= 0) {
     leftSpeed = left * 2; // convert to 0-255 scale

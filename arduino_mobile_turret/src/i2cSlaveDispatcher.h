@@ -10,15 +10,26 @@
 #define ACK_SIZE 2
 
 class i2cSlaveDispatcher {
+private:
+
+  static int count;
+  static void (*toScreen)(const String&,
+                          uint16_t screenColor,
+                          uint16_t textColor);
+
+  // These need to be static since that's what Wire.h expects
+  static void receiveData(int size);
+  static void sendData();
+
 public:
 
   i2cSlaveDispatcher() {}
 
-  void setToScreen(void (*toScreen)(const String&));
-  void setToScreen2(void (    *toScreen2)(
-                      const String&,
-                      uint16_t screenColor,
-                      uint16_t textColor));
+  void setToScreen(void (    *toScreen)(
+                     const String&,
+                     uint16_t screenColor,
+                     uint16_t textColor));
+
   void setMotorControlHandler(void (*motorControl)(char, char));
 
   void begin() {
@@ -26,38 +37,20 @@ public:
     Wire.onReceive(receiveData);
     Wire.onRequest(sendData);
   }
-
-private:
-
-  static int count;
-  static void (*toScreen)(const String&);
-  static void (*toScreen2)(const String&,
-                           uint16_t screenColor,
-                           uint16_t textColor);
-
-  // These need to be static since that's what Wire.h expects
-  static void receiveData(int size);
-  static void sendData();
 };
 
 int i2cSlaveDispatcher::count = 0;
 
-void(*i2cSlaveDispatcher::toScreen)(const String&);
-void(*i2cSlaveDispatcher::toScreen2)(const String&,
-                                     uint16_t screenColor,
-                                     uint16_t textColor);
+void(*i2cSlaveDispatcher::toScreen)(const String&,
+                                    uint16_t screenColor,
+                                    uint16_t textColor);
 
-void i2cSlaveDispatcher::setToScreen(void (*function)(const String&))
+void i2cSlaveDispatcher::setToScreen(void (    *function)(
+                                       const String&,
+                                       uint16_t screenColor,
+                                       uint16_t textColor))
 {
   toScreen = function;
-}
-
-void i2cSlaveDispatcher::setToScreen2(void (    *function)(
-                                        const String&,
-                                        uint16_t screenColor,
-                                        uint16_t textColor))
-{
-  toScreen2 = function;
 }
 
 void i2cSlaveDispatcher::receiveData(int size) {
@@ -69,15 +62,15 @@ void i2cSlaveDispatcher::receiveData(int size) {
     if (buffer[2] == MotorControlFailsafe) {
       MotorHandler::setSpeed(0, 0);
       count = 0;
-      toScreen2("Failsafe", MAGENTA, BLACK);
+      toScreen("Failsafe", RED, BLACK);
     } else if (buffer[2] == MotorControlAbsolute) {
       MotorHandler::setSpeed(buffer[3], buffer[4]);
       count++;
     }
   }
 
-  if (count == 1) {
-    toScreen2("OK", GREEN, BLACK);
+  if (count == 2) {
+    toScreen("Connected", GREEN, BLACK);
   }
 }
 

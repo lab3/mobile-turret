@@ -29,9 +29,6 @@ class ControlState{
     }
     
     func calcPercent(touchLocation: CGPoint) {
-        
-        let curP = percent
-        
         if(active){
             if(vertical){
                 let max = Double(sprite.size.height) / 2
