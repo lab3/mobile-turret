@@ -5,23 +5,19 @@ class GameScene: SKScene {
     let controlT = SKSpriteNode(imageNamed: "dpad_lr")
     let controlC = SKSpriteNode(imageNamed: "dpad_full")
     
-    let controlCPercent = SKLabelNode(fontNamed: "Arial")
-    let controlCPos = SKLabelNode(fontNamed: "Arial")
+    let conrtolCR = SKLabelNode(fontNamed: "Arial")
+    let conrtolCL = SKLabelNode(fontNamed: "Arial")
     let turretPercent = SKLabelNode(fontNamed: "Arial")
     
     let fireNormal = SKSpriteNode(imageNamed: "fire_button4")
     let firePressed = SKSpriteNode(imageNamed: "fire_button_pressed")
     
-    var turret: ControlState? = nil
+    var turret: SliderState? = nil
     var fire: ButtonState? = nil
-    var circlePad: CirclePad? = nil
+    var circlePad: CirclePadState? = nil
     
     override func didMove(to view: SKView) {
         backgroundColor = SKColor.white
-        
-        turret = ControlState(scene: self, sprite: controlT, vertical: false)
-        circlePad = CirclePad(scene: self, sprite: controlC)
-        fire = ButtonState(scene: self, buttonSprite: fireNormal, buttonPressedSprite: firePressed)
         
         controlC.position = CGPoint(x: size.width * 0.13, y: size.height * 0.2)
         controlC.size = CGSize(width: 200, height: 200)
@@ -35,17 +31,17 @@ class GameScene: SKScene {
         firePressed.position = fireNormal.position
         firePressed.size = fireNormal.size
         
-        controlCPercent.text = "0.0"
-        controlCPercent.fontSize = 25
-        controlCPercent.fontColor = SKColor.green
-        controlCPercent.horizontalAlignmentMode = .left
-        controlCPercent.position = CGPoint(x: 20, y: size.height * 0.84)
+        conrtolCR.text = "0.0"
+        conrtolCR.fontSize = 25
+        conrtolCR.fontColor = SKColor.green
+        conrtolCR.horizontalAlignmentMode = .left
+        conrtolCR.position = CGPoint(x: 20, y: size.height * 0.84)
         
-        controlCPos.text = "0.0"
-        controlCPos.fontSize = 25
-        controlCPos.fontColor = SKColor.blue
-        controlCPos.horizontalAlignmentMode = .left
-        controlCPos.position = CGPoint(x: 20, y: size.height * 0.8)
+        conrtolCL.text = "0.0"
+        conrtolCL.fontSize = 25
+        conrtolCL.fontColor = SKColor.blue
+        conrtolCL.horizontalAlignmentMode = .left
+        conrtolCL.position = CGPoint(x: 20, y: size.height * 0.8)
         
         turretPercent.text = "0.0"
         turretPercent.fontSize = 25
@@ -54,8 +50,8 @@ class GameScene: SKScene {
         turretPercent.position = CGPoint(x: 20, y: size.height * 0.88)
         
         
-        addChild(controlCPercent)
-        addChild(controlCPos)
+        addChild(conrtolCR)
+        addChild(conrtolCL)
         addChild(turretPercent)
         
         addChild(controlT)
@@ -63,6 +59,12 @@ class GameScene: SKScene {
         addChild(fireNormal)
         firePressed.isHidden = true
         addChild(firePressed)
+        
+        turret = SliderState(scene: self, sprite: controlT, vertical: false)
+        circlePad = CirclePadState(scene: self, sprite: controlC)
+        fire = ButtonState(scene: self, buttonSprite: fireNormal, buttonPressedSprite: firePressed)
+        
+        updateUI()
         
         //        DispatchQueue.global().async {
         //            var pending = false
@@ -93,6 +95,7 @@ class GameScene: SKScene {
             turret!.handleStart(touch: touch)
             fire!.handleStart(touch: touch)
         }
+        updateUI()
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -119,8 +122,9 @@ class GameScene: SKScene {
     }
     
     func updateUI(){
-        controlCPercent.text = String(format: "%.3f", circlePad!.percent)
-        controlCPos.text = "blah"
+        conrtolCR.text = String(format: "R: %.0f%% (%.0f)", circlePad!.rPercent * 100, circlePad!.rPercent * 127)
+        conrtolCL.text = String(format: "L: %.0f%% (%.0f)", circlePad!.lPercent * 100, circlePad!.lPercent * 127)
         turretPercent.text = String(format: "%.3f", turret!.percent)
+        
     }
 }

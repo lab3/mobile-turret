@@ -1,16 +1,15 @@
 import Foundation
 import SpriteKit
 
-class CirclePad{
+class CirclePadState{
     var scene: GameScene
     var sprite: SKSpriteNode
     var touchDot: SKSpriteNode
     var active: Bool
     var start: CGPoint
     var myTouch: UITouch
-    var percent:Double = 0.0
-    var posX:Double = 0.0
-    var posY:Double = 0.0
+    var rPercent:Double = 0.0
+    var lPercent:Double = 0.0
     var multiplier: Double = 1.0
     
     init(scene: GameScene, sprite: SKSpriteNode){
@@ -18,7 +17,12 @@ class CirclePad{
         self.sprite = sprite
         self.touchDot = SKSpriteNode(imageNamed: "touchdot")
         self.active = false
-        self.start = CGPoint(x: 0, y: 0)
+        self.start = CGPoint(x: sprite.position.x, y: sprite.position.y)
+        
+        NSLog("pos %f.0,%f.0",sprite.position.x, sprite.position.y)
+        NSLog("pos %f.0,%f.0",self.start.x, self.start.y)
+        NSLog("pos %f.0,%f.0",sprite.size.width, sprite.size.height)
+        
         self.touchDot.size = CGSize(width: 60, height: 60)
         self.myTouch = UITouch()
     }
@@ -29,7 +33,7 @@ class CirclePad{
     
     func calcPercent(touchLocation: CGPoint) {
         if(active){
-            let max = Double(sprite.size.height) / 2
+            let max = Double(sprite.size.height) / 3
             var cur: Double
             if(start.y > touchLocation.y){
                 multiplier = -1.0
@@ -40,14 +44,14 @@ class CirclePad{
             }
             
             if(cur > max){
-                percent = 1.0
+                rPercent = 1.0
             }else{
-                percent = Double(cur) / max
+                rPercent = Double(cur) / max
             }
             
-            percent = percent * multiplier
+            rPercent = rPercent * multiplier
         }else{
-            percent = 0
+            rPercent = 0
         }
     }
     
@@ -58,9 +62,10 @@ class CirclePad{
             active = true
             touchDot.position.y = touchLocation.y
             touchDot.position.x = touchLocation.x
-            start = touchLocation
+            //start = touchLocation
             scene.addChild(touchDot)
             myTouch = touch
+            calcPercent(touchLocation: touchLocation)
         }
     }
     
@@ -68,10 +73,9 @@ class CirclePad{
         if (myTouch == touch) {
             let touchLocation = touch.location(in: scene)
             calcPercent(touchLocation: touchLocation)
-            if(percent != 1){
-                touchDot.position.y = touchLocation.y
-                touchDot.position.x = touchLocation.x
-            }
+            touchDot.position.y = touchLocation.y
+            touchDot.position.x = touchLocation.x
+
         }
     }
     

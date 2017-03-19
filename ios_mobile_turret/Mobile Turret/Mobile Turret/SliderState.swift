@@ -1,7 +1,7 @@
 import Foundation
 import SpriteKit
 
-class ControlState{
+class SliderState{
     var scene: GameScene
     var sprite: SKSpriteNode
     var touchDot: SKSpriteNode
