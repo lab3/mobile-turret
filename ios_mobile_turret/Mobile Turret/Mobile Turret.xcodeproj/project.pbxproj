@@ -11,6 +11,8 @@
 		BF6DFDE91E73D17A00A503E9 /* ControlState.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6DFDE81E73D17A00A503E9 /* ControlState.swift */; };
 		BF6DFDEB1E74794F00A503E9 /* ButtonState.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6DFDEA1E74794F00A503E9 /* ButtonState.swift */; };
 		BF6DFDED1E7483DF00A503E9 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = BF6DFDEC1E7483DF00A503E9 /* Podfile */; };
+		BF843F301E7E4B2E00CAA150 /* CirclePad.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF843F2F1E7E4B2E00CAA150 /* CirclePad.swift */; };
+		BF9FF7EE1E7E3230002B64F6 /* Cockpit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9FF7ED1E7E3230002B64F6 /* Cockpit.swift */; };
 		BFA8ACE71E73AD240021AC0C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA8ACE61E73AD240021AC0C /* AppDelegate.swift */; };
 		BFA8ACE91E73AD240021AC0C /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = BFA8ACE81E73AD240021AC0C /* GameScene.sks */; };
 		BFA8ACEB1E73AD240021AC0C /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = BFA8ACEA1E73AD240021AC0C /* Actions.sks */; };
@@ -26,6 +28,8 @@
 		BF6DFDE81E73D17A00A503E9 /* ControlState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlState.swift; sourceTree = "<group>"; };
 		BF6DFDEA1E74794F00A503E9 /* ButtonState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonState.swift; sourceTree = "<group>"; };
 		BF6DFDEC1E7483DF00A503E9 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		BF843F2F1E7E4B2E00CAA150 /* CirclePad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CirclePad.swift; sourceTree = "<group>"; };
+		BF9FF7ED1E7E3230002B64F6 /* Cockpit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cockpit.swift; sourceTree = "<group>"; };
 		BFA8ACE31E73AD240021AC0C /* Mobile Turret.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mobile Turret.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFA8ACE61E73AD240021AC0C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BFA8ACE81E73AD240021AC0C /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -82,10 +86,12 @@
 		BFA8ACE51E73AD240021AC0C /* Mobile Turret */ = {
 			isa = PBXGroup;
 			children = (
+				BF843F2F1E7E4B2E00CAA150 /* CirclePad.swift */,
 				BFA8ACE61E73AD240021AC0C /* AppDelegate.swift */,
 				BFA8ACE81E73AD240021AC0C /* GameScene.sks */,
 				BFA8ACEA1E73AD240021AC0C /* Actions.sks */,
 				BFA8ACEC1E73AD240021AC0C /* GameScene.swift */,
+				BF9FF7ED1E7E3230002B64F6 /* Cockpit.swift */,
 				BFA8ACEE1E73AD240021AC0C /* GameViewController.swift */,
 				BFA8ACF01E73AD240021AC0C /* Main.storyboard */,
 				BFA8ACF31E73AD240021AC0C /* Assets.xcassets */,
@@ -234,8 +240,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFA8ACED1E73AD240021AC0C /* GameScene.swift in Sources */,
+				BF843F301E7E4B2E00CAA150 /* CirclePad.swift in Sources */,
 				BF6DFDEB1E74794F00A503E9 /* ButtonState.swift in Sources */,
 				BFA8ACEF1E73AD240021AC0C /* GameViewController.swift in Sources */,
+				BF9FF7EE1E7E3230002B64F6 /* Cockpit.swift in Sources */,
 				BFA8ACE71E73AD240021AC0C /* AppDelegate.swift in Sources */,
 				BF6DFDE91E73D17A00A503E9 /* ControlState.swift in Sources */,
 			);

@@ -70,7 +70,7 @@ class ControlState{
         }
     }
     
-    func handleStart(touch: UITouch) -> Bool {
+    func handleStart(touch: UITouch) {
         let touchLocation = touch.location(in: scene)
         
         if(inactive() && sprite.contains(touchLocation)){
@@ -86,13 +86,10 @@ class ControlState{
             start = touchLocation
             scene.addChild(touchDot)
             myTouch = touch
-            return true
         }
-        
-        return false
     }
     
-    func handleMove(touch: UITouch) -> Bool{
+    func handleMove(touch: UITouch){
         if (myTouch == touch) {
             let touchLocation = touch.location(in: scene)
             calcPercent(touchLocation: touchLocation)
@@ -104,24 +101,17 @@ class ControlState{
                     touchDot.position.x = touchLocation.x
                 }
             }
-            
-            return true
         }
-        
-        return false
     }
     
-    func handleEnd(touch: UITouch) -> Bool{
+    func handleEnd(touch: UITouch){
         if (myTouch == touch) {
             if(touchDot.parent != nil){
                 let touchLocation = touch.location(in: scene)
                 touchDot.removeFromParent()
                 active = false
                 calcPercent(touchLocation: touchLocation)
-                return true
             }
         }
-        
-        return false
     }
 }
