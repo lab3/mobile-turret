@@ -8,9 +8,12 @@ class CirclePadState{
     var active: Bool
     var start: CGPoint
     var myTouch: UITouch
+    var throttlePercent:Double = 0.0
+    var yawRatio:Double = 0.0
     var rPercent:Double = 0.0
     var lPercent:Double = 0.0
-    var multiplier: Double = 1.0
+    var throttleMultiplier: Double = 1.0
+    var yawMultiplier: Double = 1.0
     
     init(scene: GameScene, sprite: SKSpriteNode){
         self.scene = scene
@@ -36,22 +39,59 @@ class CirclePadState{
             let max = Double(sprite.size.height) / 3
             var cur: Double
             if(start.y > touchLocation.y){
-                multiplier = -1.0
+                throttleMultiplier = -1.0
                 cur = Double(start.y.subtracting(touchLocation.y))
             }else{
-                multiplier = 1.0
+                throttleMultiplier = 1.0
                 cur = Double(touchLocation.y.subtracting(start.y))
             }
             
             if(cur > max){
-                rPercent = 1.0
+                throttlePercent = 1.0
             }else{
-                rPercent = Double(cur) / max
+                throttlePercent = Double(cur) / max
             }
             
-            rPercent = rPercent * multiplier
+            throttlePercent = throttlePercent * throttleMultiplier
+            
+            
+            if(start.x > touchLocation.x){
+                yawMultiplier = -1.0
+                cur = Double(start.x.subtracting(touchLocation.x))
+            }else{
+                yawMultiplier = 1.0
+                cur = Double(touchLocation.x.subtracting(start.x))
+            }
+            
+            if(cur > max){
+                yawRatio = 1.0
+            }else{
+                yawRatio = Double(cur) / max
+            }
+            
+            yawRatio = yawRatio * yawMultiplier
+            
+            //Right = yaw > 0 must reduce power to right wheel
+            //Left = yaw < 0 must reduce power to left wheel
+            
+            if(yawRatio > 0){
+                lPercent = 1
+                rPercent = (1 - yawRatio)
+            }
+            
+            if(yawRatio < 0){
+                rPercent = 1
+                lPercent = (1 - yawRatio * -1) 
+            }
+            
+            rPercent *= throttlePercent
+            lPercent *= throttlePercent
+            
         }else{
             rPercent = 0
+            lPercent = 0
+            yawRatio = 0
+            throttlePercent = 0
         }
     }
     
@@ -75,7 +115,7 @@ class CirclePadState{
             calcPercent(touchLocation: touchLocation)
             touchDot.position.y = touchLocation.y
             touchDot.position.x = touchLocation.x
-
+            
         }
     }
     

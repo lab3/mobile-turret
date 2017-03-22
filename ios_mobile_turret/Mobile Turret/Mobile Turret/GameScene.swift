@@ -5,9 +5,11 @@ class GameScene: SKScene {
     let controlT = SKSpriteNode(imageNamed: "dpad_lr")
     let controlC = SKSpriteNode(imageNamed: "dpad_full")
     
-    let conrtolCR = SKLabelNode(fontNamed: "Arial")
-    let conrtolCL = SKLabelNode(fontNamed: "Arial")
-    let turretPercent = SKLabelNode(fontNamed: "Arial")
+    let labelLeftWheel = SKLabelNode(fontNamed: "Arial")
+    let labelRightWheel = SKLabelNode(fontNamed: "Arial")
+    let labelYawRatio = SKLabelNode(fontNamed: "Arial")
+    let labelThrottlePercent = SKLabelNode(fontNamed: "Arial")
+    let labelTurretPercent = SKLabelNode(fontNamed: "Arial")
     
     let fireNormal = SKSpriteNode(imageNamed: "fire_button4")
     let firePressed = SKSpriteNode(imageNamed: "fire_button_pressed")
@@ -15,6 +17,15 @@ class GameScene: SKScene {
     var turret: SliderState? = nil
     var fire: ButtonState? = nil
     var circlePad: CirclePadState? = nil
+    
+    func setLabel(label:SKLabelNode, text: String, point: CGPoint, color:UIColor){
+        label.text = text
+        label.fontSize = 25
+        label.fontColor = color
+        label.horizontalAlignmentMode = .left
+        label.position = point//CGPoint(x: 20, y: size.height * 0.88)
+        addChild(label)
+    }
     
     override func didMove(to view: SKView) {
         backgroundColor = SKColor.white
@@ -31,34 +42,19 @@ class GameScene: SKScene {
         firePressed.position = fireNormal.position
         firePressed.size = fireNormal.size
         
-        conrtolCR.text = "0.0"
-        conrtolCR.fontSize = 25
-        conrtolCR.fontColor = SKColor.green
-        conrtolCR.horizontalAlignmentMode = .left
-        conrtolCR.position = CGPoint(x: 20, y: size.height * 0.84)
-        
-        conrtolCL.text = "0.0"
-        conrtolCL.fontSize = 25
-        conrtolCL.fontColor = SKColor.blue
-        conrtolCL.horizontalAlignmentMode = .left
-        conrtolCL.position = CGPoint(x: 20, y: size.height * 0.8)
-        
-        turretPercent.text = "0.0"
-        turretPercent.fontSize = 25
-        turretPercent.fontColor = SKColor.red
-        turretPercent.horizontalAlignmentMode = .left
-        turretPercent.position = CGPoint(x: 20, y: size.height * 0.88)
         
         
-        addChild(conrtolCR)
-        addChild(conrtolCL)
-        addChild(turretPercent)
+        setLabel(label: labelTurretPercent, text: "TR: 0.0", point: CGPoint(x: 20, y: size.height * 0.88), color: UIColor.green)
+        setLabel(label: labelThrottlePercent, text: "TH: 0.0", point: CGPoint(x: 20, y: size.height * 0.84), color: UIColor.red)
+        setLabel(label: labelYawRatio, text: "YW: 0.0", point: CGPoint(x: 20, y: size.height * 0.8), color: UIColor.red)
+        setLabel(label: labelLeftWheel, text: "LW: 0.0", point: CGPoint(x: 20, y: size.height * 0.76), color: UIColor.red)
+        setLabel(label: labelRightWheel, text:"RW: 0.0", point: CGPoint(x: 20, y: size.height * 0.72), color: UIColor.red)
         
+        firePressed.isHidden = true
+        addChild(firePressed)
         addChild(controlT)
         addChild(controlC)
         addChild(fireNormal)
-        firePressed.isHidden = true
-        addChild(firePressed)
         
         turret = SliderState(scene: self, sprite: controlT, vertical: false)
         circlePad = CirclePadState(scene: self, sprite: controlC)
@@ -66,25 +62,25 @@ class GameScene: SKScene {
         
         updateUI()
         
-        //        DispatchQueue.global().async {
-        //            var pending = false
-        //            while(true){
-        //                if(!pending){
-        //                    pending = true
-        //
-        //                    let lval = Int(self.left!.percent * 127.0)
-        //                    let rval = Int(self.right!.percent * 127.0)
-        //
-        //                    let url = "http://lbpi3:8080/mca/" + String(lval) + "/" + String(rval)
-        //                    Alamofire.request(url).responseJSON { response in
-        //                        pending = false
-        //                        //NSLog(response.data.debugDescription)
-        //                        //debugPrint("Ok1")
-        //                    }
-        //                }
-        //                usleep(5000) //5ms => (1ms = 1000us)
-        //            }
-        //        }
+                DispatchQueue.global().async {
+                    var pending = false
+                    while(true){
+                        if(!pending){
+                            pending = true
+        
+                            let lval = Int(self.circlePad!.lPercent * 127.0)
+                            let rval = Int(self.circlePad!.rPercent * 127.0)
+        
+                            let url = "http://lbpi3:8080/mca/" + String(lval) + "/" + String(rval)
+                            Alamofire.request(url).responseJSON { response in
+                                pending = false
+                                //NSLog(response.data.debugDescription)
+                                //debugPrint("Ok1")
+                            }
+                        }
+                        usleep(5000) //5ms => (1ms = 1000us)
+                    }
+                }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -122,9 +118,10 @@ class GameScene: SKScene {
     }
     
     func updateUI(){
-        conrtolCR.text = String(format: "R: %.0f%% (%.0f)", circlePad!.rPercent * 100, circlePad!.rPercent * 127)
-        conrtolCL.text = String(format: "L: %.0f%% (%.0f)", circlePad!.lPercent * 100, circlePad!.lPercent * 127)
-        turretPercent.text = String(format: "%.3f", turret!.percent)
-        
+        labelThrottlePercent.text = String(format: "TH: %.0f%% (%.0f)", circlePad!.throttlePercent * 100, circlePad!.throttlePercent * 127)
+        labelYawRatio.text = String(format: "YW: %.0f%% (%.0f)", circlePad!.yawRatio * 100, circlePad!.yawRatio * 127)
+        labelRightWheel.text = String(format: "RW: %.0f%% (%.0f)", circlePad!.rPercent * 100, circlePad!.rPercent * 127)
+        labelLeftWheel.text = String(format: "LW: %.0f%% (%.0f)", circlePad!.lPercent * 100, circlePad!.lPercent * 127)
+        labelTurretPercent.text = String(format: "TR: %.0f%% (%.0f)", turret!.percent * 100, turret!.percent * 127)
     }
 }
