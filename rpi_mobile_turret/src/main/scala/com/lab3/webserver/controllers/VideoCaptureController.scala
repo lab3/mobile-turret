@@ -1,18 +1,16 @@
 package com.lab3.webserver.controllers
 
 import java.io.{ByteArrayOutputStream, FileInputStream}
-
+import javax.inject.Inject
 import com.lab3.logic.VideoSender
-import com.lab3.util.Scribe
 import com.twitter.finagle.http.Request
 import com.twitter.finatra.http.Controller
-import org.opencv.core.{Core, Mat, MatOfByte}
-import org.opencv.highgui.{Highgui, VideoCapture}
+import org.opencv.core.MatOfByte
+import org.opencv.highgui.Highgui
 
+class VideoCaptureController @Inject()(videoSender: VideoSender) extends Controller {
 
-class VideoCaptureController extends Controller {
-
-   private def getImageBytes = {
+   private def getSampleImageBytes = {
       val is = new FileInputStream("/apps/finatra_logo.png")
       val buffer = new ByteArrayOutputStream()
 
@@ -29,11 +27,11 @@ class VideoCaptureController extends Controller {
       response
          .ok
          .header("Content-Type", "image/jpeg")
-         .body(getImageBytes)
+         .body(getSampleImageBytes)
    }
 
    get("/captureImage", name = "captureImage") { request: Request =>
-      val f = VideoSender.currentFrame
+      val f = videoSender.currentFrame
       val b = new MatOfByte()
       Highgui.imencode(".jpg", f, b)
       val tmp = b.toArray
@@ -44,13 +42,11 @@ class VideoCaptureController extends Controller {
          .body(tmp)
    }
 
-
-   get("/startStream", name = "startStream") { request: Request =>
-      VideoSender.start(System.currentTimeMillis().toString)
+   get("/startStream/:HOST/:PORT", name = "startStream") { request: Request =>
+      videoSender.start(request.getParam("HOST"), request.getIntParam("PORT"))
    }
 
    get("/stopStream", name = "stopStream") { request: Request =>
-      VideoSender.stop
+      videoSender.stop
    }
-
 }

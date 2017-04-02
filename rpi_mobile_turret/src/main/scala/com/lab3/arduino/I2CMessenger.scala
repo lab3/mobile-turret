@@ -1,9 +1,6 @@
 package com.lab3.arduino
 
-import java.util.concurrent.atomic.AtomicInteger
-
 import com.pi4j.io.i2c.{I2CBus, I2CDevice, I2CFactory}
-
 
 class I2CMessenger {
    private[this] val serial = I2CFactory.getInstance(I2CBus.BUS_1)

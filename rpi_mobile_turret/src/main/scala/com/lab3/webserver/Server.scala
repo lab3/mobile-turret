@@ -4,7 +4,7 @@ import com.lab3.arduino.I2CMessenger
 import com.lab3.webserver.controllers.{DefaultController, VideoCaptureController}
 import com.twitter.finatra.http.HttpServer
 import com.twitter.finatra.http.routing.HttpRouter
-import com.twitter.finagle.http.{Request, Response}
+import com.twitter.finagle.http.Request
 
 object ServerMain {
    val i2c = new I2CMessenger()
@@ -22,7 +22,6 @@ object ServerMain {
 
       server.main(args)
    }
-
 
    def motorFailSafe(): Unit = {
       while (true) {
@@ -46,8 +45,8 @@ class Server extends HttpServer {
    override protected def configureHttp(router: HttpRouter): Unit = {
       router
          .filter[RequestLogFilter[Request]]
-         .add(new DefaultController)
-         .add(new VideoCaptureController)
+         .add[DefaultController]
+         .add[VideoCaptureController]
    }
 
    override def warmup() {
