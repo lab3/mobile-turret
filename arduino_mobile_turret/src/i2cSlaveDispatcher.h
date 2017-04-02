@@ -5,7 +5,7 @@
 #include "MotorHandler.h"
 #include <Wire.h>
 
-#define SLAVE_ADDRESS 0x04
+#define SLAVE_ADDRESS 0x05
 #define MESSAGE_SIZE 5
 #define ACK_SIZE 2
 

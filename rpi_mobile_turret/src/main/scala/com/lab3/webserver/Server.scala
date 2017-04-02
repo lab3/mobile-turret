@@ -1,9 +1,10 @@
 package com.lab3.webserver
 
 import com.lab3.arduino.I2CMessenger
+import com.lab3.webserver.controllers.{DefaultController, VideoCaptureController}
 import com.twitter.finatra.http.HttpServer
 import com.twitter.finatra.http.routing.HttpRouter
-import org.joda.time.DateTime
+import com.twitter.finagle.http.{Request, Response}
 
 object ServerMain {
    val i2c = new I2CMessenger()
@@ -36,11 +37,20 @@ object ServerMain {
 
 class Server extends HttpServer {
 
+   override protected def jacksonModule: CustomJacksonModule.type = CustomJacksonModule
+
    override protected def defaultFinatraHttpPort: String = ":8080"
 
    override protected def defaultHttpServerName: String = "mobile-turret-server"
 
    override protected def configureHttp(router: HttpRouter): Unit = {
-      router.add(new DefaultController)
+      router
+         .filter[RequestLogFilter[Request]]
+         .add(new DefaultController)
+         .add(new VideoCaptureController)
+   }
+
+   override def warmup() {
+      handle[CustomWarmupHandler]()
    }
 }

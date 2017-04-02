@@ -9,22 +9,17 @@ resolvers := Seq(
    Classpaths.typesafeReleases
 )
 
-val dispatch = "net.databinder.dispatch" %% "dispatch-core" % "0.11.2"
-val guice = "net.codingwell" %% "scala-guice" % "4.1.0"
-val joda = "joda-time" % "joda-time" % "2.9.4"
-val slf4jNop = "org.slf4j" % "slf4j-nop" % "1.6.4"
-val scalaTest = "org.scalatest" %% "scalatest" % "3.0.0" % "test"
-val finatra = "com.twitter" %% "finatra-http" % "2.8.0"
-val pi4j_core = "com.pi4j" % "pi4j-core" % "1.1"
-
 libraryDependencies ++= Seq(
-   dispatch,
-   guice,
-   joda,
-   slf4jNop,
-   scalaTest,
-   finatra,
-   pi4j_core
+   "net.databinder.dispatch" %% "dispatch-core" % "0.11.2",
+   "net.codingwell" %% "scala-guice" % "4.1.0",
+   "joda-time" % "joda-time" % "2.9.4",
+   "org.scalatest" %% "scalatest" % "3.0.0" % "test",
+   "com.twitter" %% "finatra-http" % "2.8.0",
+   "com.twitter" %% "finatra-httpclient" % "2.8.0",
+   "com.pi4j" % "pi4j-core" % "1.1",
+   "ch.qos.logback" % "logback-classic" % "1.2.2",
+   "com.fasterxml.jackson.module" % "jackson-module-scala_2.11" % "2.7.2",
+   "com.typesafe" % "config" % "1.3.0"
 )
 
 enablePlugins(JavaServerAppPackaging)

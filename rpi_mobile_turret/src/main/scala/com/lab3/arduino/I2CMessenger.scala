@@ -12,7 +12,7 @@ class I2CMessenger {
 
    def init: Unit = {
       try {
-         device = serial.getDevice(0x04)
+         device = serial.getDevice(0x05)
       } catch {
          case ex: Throwable => println("I2C bus not available")
       }

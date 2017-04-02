@@ -1,0 +1,19 @@
+<configuration>
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>/apps/logs/mobile-turret.log</file>
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <filter class="mobile-turret" />
+        <appender-ref ref="FILE" />
+    </appender>
+
+    <logger name="mobile-turret" level="DEBUG">
+        <appender-ref ref="ASYNC" />
+    </logger>
+
+    <root level="OFF" />
+</configuration>
