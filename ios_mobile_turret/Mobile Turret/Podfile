@@ -4,4 +4,6 @@ use_frameworks!
 
 target 'Mobile Turret' do
 pod 'Alamofire', '~> 4.4'
+pod 'SwiftSocket'
+pod 'CocoaAsyncSocket'
 end

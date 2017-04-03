@@ -2,6 +2,11 @@ import SpriteKit
 import Alamofire
 
 class GameScene: SKScene {
+    
+    let viewer = UIImageView()
+
+    let udp = UDPListener()
+   
     let controlT = SKSpriteNode(imageNamed: "dpad_lr")
     let controlC = SKSpriteNode(imageNamed: "dpad_full")
     
@@ -31,7 +36,12 @@ class GameScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
+        udp.start()
         backgroundColor = SKColor.white
+        
+        viewer.frame = CGRect(origin: CGPoint(x: size.width * 0.3, y: size.height * 0.25), size: CGSize(width: 320, height: 240))
+        viewer.layer.borderColor = UIColor.black.cgColor
+        viewer.layer.borderWidth = 2.0
         
         controlC.position = CGPoint(x: size.width * 0.13, y: size.height * 0.2)
         controlC.size = CGSize(width: 200, height: 200)
@@ -62,6 +72,7 @@ class GameScene: SKScene {
         addChild(controlC)
         addChild(fireNormal)
         self.view?.addSubview(textField)
+        self.view?.addSubview(viewer)
         
         turret = SliderState(scene: self, sprite: controlT, vertical: false)
         circlePad = CirclePadState(scene: self, sprite: controlC)

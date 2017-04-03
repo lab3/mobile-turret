@@ -1,12 +1,18 @@
 PODS:
   - Alamofire (4.4.0)
+  - CocoaAsyncSocket (7.6.0)
+  - SwiftSocket (2.0.1)
 
 DEPENDENCIES:
   - Alamofire (~> 4.4)
+  - CocoaAsyncSocket
+  - SwiftSocket
 
 SPEC CHECKSUMS:
   Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
+  CocoaAsyncSocket: b9d5589f07baf9de8f34cc25abd4fcba28f13805
+  SwiftSocket: 2d814afdc97c89217982f86fd036c1874134a63f
 
-PODFILE CHECKSUM: d8b26df44870c6a9042820814e81207179c8affe
+PODFILE CHECKSUM: dc58effc334fa3946a7a68fdb650d3898c182d24
 
 COCOAPODS: 1.2.0
